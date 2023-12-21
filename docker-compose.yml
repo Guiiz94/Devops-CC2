@@ -29,6 +29,20 @@ services:
       - postgresql:/var/lib/postgresql
       - postgresql_data:/var/lib/postgresql/data
 
+  api:
+    build: ./api
+    ports:
+      - "8080:8080"
+    networks:
+      - sonarnet
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+    networks:
+      - sonarnet
+
 networks:
   sonarnet:
 
