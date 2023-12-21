@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-configmap
+  namespace: devops-cc2
+data:
+  api_url: FRONTEND_API_URL

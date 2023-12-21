@@ -1,0 +1,27 @@
+name: CI/CD Docker Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build and push Docker images
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+        run: |
+          docker build -t devops-cc2/api:latest ./api
+          docker build -t devops-cc2/frontend:latest ./frontend
+          docker build -t devops-cc2/db:latest ./db
+          
+          docker push devops-cc2/api:latest
+          docker push devops-cc2/frontend:latest
+          docker push devops-cc2/db:latest
