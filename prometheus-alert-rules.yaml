@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: microservices-alerts
+  namespace: monitoring
+spec:
+  groups:
+    - name: microservices.rules
+      rules:
+        - alert: HighErrorRate
+          expr: sum(rate(http_server_requests_errors_total[1m])) / sum(rate(http_server_requests_total[1m])) * 100 > 5
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "High error rate detected"
+            description: "Error rate is too high - {{ $value }}% errors within 5 minutes."
